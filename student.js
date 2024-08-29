@@ -21,7 +21,7 @@ function addStudent(name, age, grade, email) {
                     return reject({ message: 'Error adding student', error: err });
                 }
 
-                const studentId = this.lastID;
+                const studentId = this.lastID; // Ensure that lastID is taken from the function's context
 
                 sendEmail(email, 'Welcome to Our School', `Hello ${name}, welcome to our school!`);
 
