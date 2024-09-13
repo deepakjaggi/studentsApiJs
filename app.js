@@ -7,16 +7,18 @@ app.use(express.json());
 app.post('/students', async (req, res) => {
   try {
     const { name, age, grade, email } = req.body;
-    const result = await StudentService.addStudent(name, age, grade, email);  // Call addStudent method from StudentService
+    const result = await StudentService.addStudent(name, age, grade, email);  // Call addStudent method
     res.status(200).json(result);
   } catch (error) {
-    if (error.error === 'EMAIL_EXISTS') {
+    // Check the error message instead of error.error
+    if (error.message === 'Email already exists') {
       res.status(400).json({ message: 'Email already exists' });
     } else {
-      res.status(500).json(error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
 });
+
 
 // Add this route to handle GET /students/:id
 app.get('/students/:id', async (req, res) => {
@@ -32,7 +34,7 @@ app.get('/students/:id', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
