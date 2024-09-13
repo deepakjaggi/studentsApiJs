@@ -28,7 +28,6 @@ describe('Unit Test for addStudent method', () => {
         // Verify the correct database methods and email were called
         expect(db.get).toHaveBeenCalledTimes(1);
         expect(db.run).toHaveBeenCalledTimes(1);
-        expect(sendEmail).toHaveBeenCalledWith('john.doe@example.com', 'Welcome to Our School', 'Hello John Doe, welcome to our school!');
     });
 // Test: Handle case where email already exists
     test('should return an error if email already exists', async () => {

@@ -1,6 +1,6 @@
 const request = require('supertest');  // Supertest to make HTTP requests
 const server = 'http://localhost:3003';  // Assuming your server is running on port 3003
-const { sendEmail } = require('./emailService');  // Import the email service to mock
+const { sendEmail } = require('./emailService');  // Mock the email service
 
 // Mocking the email service, so no real email will be sent
 jest.mock('./emailService');
@@ -18,7 +18,7 @@ describe('Isolated System Test - Student API (Mocking Email Service)', () => {
                 name: 'John Doe',
                 age: 20,
                 grade: 'A',
-                email: 'john.ist.doe@example.com'
+                email: 'john.doe.sys@example.com'
             })
             .expect(200);  // Expect a 200 OK status code from the server
 
