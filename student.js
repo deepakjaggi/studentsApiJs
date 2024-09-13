@@ -2,7 +2,6 @@ const db = require('./db');
 const { sendEmail } = require('./emailService');
 
 class StudentService {
-    // Method to check if the email already exists in the database
     async queryStudentByEmail(email) {
         try {
             const checkEmailQuery = `SELECT * FROM students WHERE email = ?`;
@@ -19,7 +18,6 @@ class StudentService {
         }
     }
 
-    // Method to insert a new student into the database
     async insertStudent(name, age, grade, email) {
         try {
             const insertQuery = `INSERT INTO students (name, age, grade, email) VALUES (?, ?, ?, ?)`;
@@ -28,7 +26,7 @@ class StudentService {
                     if (err) {
                         return reject(new Error('Error adding student'));
                     }
-                    resolve(this.lastID); // 'this' refers to the db context where the student ID is stored
+                    resolve(this.lastID);
                 });
             });
         } catch (error) {
@@ -36,12 +34,11 @@ class StudentService {
         }
     }
 
-    // Method to send a welcome email
     sendWelcomeEmail(name, email) {
-        try {
-            sendEmail(email, 'Welcome to Our School', `Hello ${name}, welcome to our school!`);
-        } catch (error) {
-            throw new Error('Failed to send email: ' + error.message);
+        const emailResult = sendEmail(email, 'Welcome to Our School', `Hello ${name}, welcome to our school!`);
+
+        if (!emailResult.success) {
+            throw new Error(emailResult.message);  // Throw an error if email fails
         }
     }
 
@@ -53,16 +50,16 @@ class StudentService {
             }
 
             const studentId = await this.insertStudent(name, age, grade, email);
+
+            // Handle email result
             this.sendWelcomeEmail(name, email);
 
             return { message: 'Student added successfully', id: studentId };
         } catch (error) {
-            //console.error('Error in addStudent:', error);  // Add this log to debug
             throw error;
         }
     }
 
-    // Method to query the student by ID
     async queryStudentById(id) {
         try {
             const query = `SELECT * FROM students WHERE id = ?`;
@@ -79,7 +76,6 @@ class StudentService {
         }
     }
 
-    // Method to get a student by ID
     async getStudentById(id) {
         try {
             const student = await this.queryStudentById(id);

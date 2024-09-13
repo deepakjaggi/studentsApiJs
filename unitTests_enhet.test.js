@@ -15,8 +15,11 @@ describe('Unit Test for addStudent method', () => {
             callback(null, null);  // No email found
         });
         db.run.mockImplementationOnce((query, params, callback) => {
-            callback.call({ lastID: 1 }, null);  // Insert student with ID 1
+            callback.call({lastID: 1}, null);  // Insert student with ID 1
         });
+
+        // Mock the sendEmail function to return a success response
+        sendEmail.mockReturnValue({success: true, message: 'Email sent successfully'});
 
         const result = await StudentService.addStudent('John Doe', 20, 'A', 'john.doe@example.com');
 
@@ -28,6 +31,11 @@ describe('Unit Test for addStudent method', () => {
         // Verify the correct database methods and email were called
         expect(db.get).toHaveBeenCalledTimes(1);
         expect(db.run).toHaveBeenCalledTimes(1);
+        expect(sendEmail).toHaveBeenCalledWith(
+            'john.doe@example.com',
+            'Welcome to Our School',
+            'Hello John Doe, welcome to our school!'
+        );
     });
 // Test: Handle case where email already exists
     test('should return an error if email already exists', async () => {
