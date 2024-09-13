@@ -1,5 +1,5 @@
 const express = require('express');
-const { addStudent, getStudentById } = require('./student');
+const StudentService = require('./student');  // Import the instance of StudentService
 
 const app = express();
 app.use(express.json());
@@ -7,7 +7,7 @@ app.use(express.json());
 app.post('/students', async (req, res) => {
   try {
     const { name, age, grade, email } = req.body;
-    const result = await addStudent(name, age, grade, email);
+    const result = await StudentService.addStudent(name, age, grade, email);  // Call addStudent method from StudentService
     res.status(200).json(result);
   } catch (error) {
     if (error.error === 'EMAIL_EXISTS') {
@@ -21,7 +21,7 @@ app.post('/students', async (req, res) => {
 // Add this route to handle GET /students/:id
 app.get('/students/:id', async (req, res) => {
   try {
-    const student = await getStudentById(req.params.id);
+    const student = await StudentService.getStudentById(req.params.id);  // Call getStudentById method from StudentService
     if (student) {
       res.status(200).json(student);
     } else {

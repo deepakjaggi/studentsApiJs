@@ -1,5 +1,4 @@
-// unitTest.test.js
-const { addStudent, getStudentById } = require('./student');
+const StudentService = require('./student');  // Import the instance of the StudentService
 const db = require('./db');
 const { sendEmail } = require('./emailService');
 
@@ -20,10 +19,10 @@ jest.mock('./emailService', () => ({
     sendEmail: jest.fn(),
 }));
 
-describe('Unit Tests for Student Operations', () => {
+describe('Unit Tests for StudentService Class', () => {
     // Test: Add a student successfully
     test('should add a student and return the student ID', async () => {
-        const result = await addStudent('John Doe', 20, 'A', 'john.doe@example.com');
+        const result = await StudentService.addStudent('John Doe', 20, 'A', 'john.doe@example.com');  // Call class method
 
         // Check if the result is as expected
         expect(result.message).toBe('Student added successfully');
@@ -42,7 +41,7 @@ describe('Unit Tests for Student Operations', () => {
             callback(null, {email: 'existing.email@example.com'}); // Simulate existing email
         });
 
-        await expect(addStudent('Jane Doe', 22, 'B', 'existing.email@example.com'))
+        await expect(StudentService.addStudent('Jane Doe', 22, 'B', 'existing.email@example.com'))  // Call class method
             .rejects.toEqual({message: 'Email already exists', error: 'EMAIL_EXISTS'});
 
     });
@@ -53,13 +52,13 @@ describe('Unit Tests for Student Operations', () => {
             callback(new Error('DB Insert Error'));
         });
 
-        await expect(addStudent('John Doe', 20, 'A', 'john.doe@example.com'))
+        await expect(StudentService.addStudent('John Doe', 20, 'A', 'john.doe@example.com'))  // Call class method
             .rejects.toEqual({ message: 'Error adding student', error: new Error('DB Insert Error') });
     });
 
     // Test: Successfully get a student by ID
     test('should return a student when ID exists', async () => {
-        const student = await getStudentById(1);
+        const student = await StudentService.getStudentById(1);  // Call class method
 
         expect(student).toEqual({
             id: 1,
@@ -73,7 +72,7 @@ describe('Unit Tests for Student Operations', () => {
 
     // Test: Attempt to get a student with an invalid ID
     test('should return null when student ID does not exist', async () => {
-        const student = await getStudentById(999); // Non-existent student
+        const student = await StudentService.getStudentById(999);  // Call class method for non-existent student
 
         expect(student).toBeNull();
     });
@@ -84,9 +83,10 @@ describe('Unit Tests for Student Operations', () => {
             callback(new Error('DB Fetch Error'));
         });
 
-        await expect(getStudentById(1)).rejects.toEqual({
-            message: 'Error retrieving student',
-            error: new Error('DB Fetch Error')
-        });
+        await expect(StudentService.getStudentById(1))  // Call class method
+            .rejects.toEqual({
+                message: 'Error retrieving student',
+                error: new Error('DB Fetch Error')
+            });
     });
 });
