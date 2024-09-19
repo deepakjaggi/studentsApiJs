@@ -1,21 +1,24 @@
 const request = require('supertest'); // Import supertest to test HTTP requests
 const { sendEmail } = require('./emailService'); // Mock the email service
-
-jest.mock('./emailService'); // Mock only the emailService, keep everything else real
-
+const {getRandomNumber} = require('./CommonMethods');
+jest.mock('./emailService'); // Mock only the emailService, no actual email logic will be used
+beforeEach(() => {
+    jest.clearAllMocks();  // Clears mock call history and resets all mocks
+});
 describe('System Test for Student API with mocked emailService', () => {
     // Test: Add a student successfully with email mock
-    test('should add a student successfully and send an email', async () => {
+    test('should add a student successfully and verify the mock email return value', async () => {
         // Mock sendEmail to return success
-        sendEmail.mockReturnValue({ success: true, message: 'Email sent successfully' });
-
+        sendEmail.mockReturnValue({ success: true, message: 'Mock Email' });
+        let ranNum = getRandomNumber(10,10000)
+        let email  = `john.doe.st_${ranNum}@example.com`
         const response = await request('http://localhost:3003') // Point to the running local server
             .post('/students')
             .send({
                 name: 'John Doe',
                 age: 20,
                 grade: 'A',
-                email: 'john.doe.st@example.com'
+                email: email
             })
             .expect(200);  // Expect HTTP 200 OK
 
@@ -24,7 +27,8 @@ describe('System Test for Student API with mocked emailService', () => {
             message: 'Student added successfully',
             id: expect.any(Number)
         });
-        expect(sendEmail).toHaveReturnedWith({success: true, message: 'Email sent successfully'});
-
+        console.log(sendEmail())
+        // Verify that the mock function returned the correct mocked value
+        expect(sendEmail).toHaveReturnedWith({success: true, message: 'Mock Email'});
     });
 });

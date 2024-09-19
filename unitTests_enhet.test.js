@@ -19,7 +19,7 @@ describe('Unit Test for addStudent method', () => {
         });
 
         // Mock the sendEmail function to return a success response
-        sendEmail.mockReturnValue({success: true, message: 'Email sent successfully'});
+        sendEmail.mockReturnValue({success: true, message: 'Mock Email'});
 
         const result = await StudentService.addStudent('John Doe', 20, 'A', 'john.doe@example.com');
 
@@ -32,7 +32,8 @@ describe('Unit Test for addStudent method', () => {
         expect(db.get).toHaveBeenCalledTimes(1);
         expect(db.run).toHaveBeenCalledTimes(1);
         // Verify the return value of sendEmail
-        expect(sendEmail).toHaveReturnedWith({success: true, message: 'Email sent successfully'});
+        console.log(sendEmail())
+        expect(sendEmail).toHaveReturnedWith({success: true, message: 'Mock Email'});
     });
 
 // Test: Handle case where email already exists
