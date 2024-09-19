@@ -1,4 +1,4 @@
-class CommonMethods {
+class CommonTestMethods {
     constructor() {
     }
     getRandomNumber = (min, max)  => {
@@ -6,4 +6,4 @@ class CommonMethods {
     }
 }
 
-module.exports = new CommonMethods();
+module.exports = new CommonTestMethods();

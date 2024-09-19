@@ -1,6 +1,5 @@
 const express = require('express');
-const StudentService = require('./student');  // Import the instance of StudentService
-
+const StudentService = require('./student');
 const app = express();
 app.use(express.json());
 

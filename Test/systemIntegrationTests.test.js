@@ -1,5 +1,5 @@
 const request = require('supertest');
-const {getRandomNumber} = require("./commonMethods");
+const {getRandomNumber} = require("./commonTestMethods");
 
 describe('System Test for Student API', () => {
     const server = 'http://localhost:3003';  // Use the already running server

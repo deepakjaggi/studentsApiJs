@@ -1,9 +1,9 @@
-const StudentService = require('./student');  // The class being tested
-const db = require('./db');  // Mock the database
-const { sendEmail } = require('./emailService');  // Mock the email service
+const StudentService = require('../student');  // The class being tested
+const db = require('../db');  // Mock the database
+const { sendEmail } = require('../emailService');  // Mock the email service
 
-jest.mock('./db');
-jest.mock('./emailService');
+jest.mock('../db');
+jest.mock('../emailService');
 beforeEach(() => {
     jest.clearAllMocks();  // Clears mock call history and resets all mocks
 });
