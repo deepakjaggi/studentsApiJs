@@ -1,7 +1,6 @@
 const express = require('express');
 const StudentService = require('./student');
-const app = express();
-app.use(express.json());
+const app = express().use(express.json())
 
 app.post('/students', async (req, res) => {
   try {

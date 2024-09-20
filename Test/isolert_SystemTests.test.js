@@ -1,7 +1,7 @@
 const request = require('supertest'); // Import supertest to test HTTP requests
 const { sendEmail } = require('../emailService'); // Mock the email service
 const {getRandomNumber} = require('./commonTestMethods');
-jest.mock('../emailService'); // Mock only the emailService, no actual email logic will be used
+jest.mock('../emailService');
 beforeEach(() => {
     jest.clearAllMocks();  // Clears mock call history and resets all mocks
 });
